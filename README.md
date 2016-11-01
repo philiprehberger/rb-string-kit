@@ -27,7 +27,7 @@ gem install philiprehberger-string_kit
 ## Usage
 
 ```ruby
-require 'philiprehberger/string_kit'
+require "philiprehberger/string_kit"
 
 Philiprehberger::StringKit.titlecase('hello world')       # => "Hello World"
 Philiprehberger::StringKit.kebab_case('helloWorld')        # => "hello-world"
@@ -78,8 +78,8 @@ Philiprehberger::StringKit.dedent("    hello\n    world")      # => "hello\nworl
 
 ```bash
 bundle install
-bundle exec rspec      # Run tests
-bundle exec rubocop    # Check code style
+bundle exec rspec
+bundle exec rubocop
 ```
 
 ## License
