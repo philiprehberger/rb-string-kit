@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary = 'Comprehensive string utilities without ActiveSupport dependency'
   spec.description = 'String case conversion, HTML stripping, whitespace normalization, word counting, ' \
-                       'reading time estimation, excerpt extraction, indentation, and more.'
+                     'reading time estimation, excerpt extraction, indentation, and more.'
   spec.homepage = 'https://philiprehberger.com/open-source-packages/ruby/philiprehberger-string_kit'
   spec.license = 'MIT'
 
