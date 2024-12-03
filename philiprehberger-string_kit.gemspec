@@ -9,8 +9,9 @@ Gem::Specification.new do |spec|
   spec.email = ['me@philiprehberger.com']
 
   spec.summary = 'Comprehensive string utilities without ActiveSupport dependency'
-  spec.description = 'String case conversion, HTML stripping, whitespace normalization, word counting, ' \
-                     'reading time estimation, excerpt extraction, indentation, and more.'
+  spec.description = 'String case conversion, slug generation, transliteration, padding, HTML stripping, ' \
+                     'whitespace normalization, word counting, reading time estimation, excerpt extraction, ' \
+                     'indentation, and more.'
   spec.homepage = 'https://philiprehberger.com/open-source-packages/ruby/philiprehberger-string_kit'
   spec.license = 'MIT'
 

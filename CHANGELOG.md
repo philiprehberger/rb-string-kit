@@ -7,6 +7,16 @@ and this gem adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-04-03
+
+### Added
+- Add `slug` method for URL-safe slug generation with custom separator support
+- Add `pad` method for left, right, and center string padding
+- Add `transliterate` method to replace accented/diacritical characters with ASCII equivalents
+- Add `dot_case` method for dot.case conversion
+- Add `path_case` method for path/case conversion
+- Add `reverse_case` method to swap upper and lower case characters
+
 ## [0.1.6] - 2026-03-31
 
 ### Added
