@@ -15,7 +15,7 @@ Comprehensive string utilities without ActiveSupport dependency
 Add to your Gemfile:
 
 ```ruby
-gem 'philiprehberger-string_kit'
+gem "philiprehberger-string_kit"
 ```
 
 Or install directly:
