@@ -3,6 +3,7 @@
 [![Tests](https://github.com/philiprehberger/rb-string-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/philiprehberger/rb-string-kit/actions/workflows/ci.yml)
 [![Gem Version](https://badge.fury.io/rb/philiprehberger-string_kit.svg)](https://rubygems.org/gems/philiprehberger-string_kit)
 [![License](https://img.shields.io/github/license/philiprehberger/rb-string-kit)](LICENSE)
+[![Sponsor](https://img.shields.io/badge/sponsor-GitHub%20Sponsors-ec6cb9)](https://github.com/sponsors/philiprehberger)
 
 Comprehensive string utilities without ActiveSupport dependency
 
@@ -84,4 +85,4 @@ bundle exec rubocop
 
 ## License
 
-MIT
+[MIT](LICENSE)
