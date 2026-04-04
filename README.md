@@ -35,6 +35,26 @@ Philiprehberger::StringKit.camel_case('hello world')       # => "helloWorld"
 Philiprehberger::StringKit.pascal_case('hello world')      # => "HelloWorld"
 Philiprehberger::StringKit.snake_case('Hello World')       # => "hello_world"
 Philiprehberger::StringKit.constant_case('hello world')    # => "HELLO_WORLD"
+Philiprehberger::StringKit.dot_case('SomeString')          # => "some.string"
+Philiprehberger::StringKit.path_case('SomeString')         # => "some/string"
+Philiprehberger::StringKit.reverse_case('Hello')           # => "hELLO"
+```
+
+### Slug Generation and Transliteration
+
+```ruby
+Philiprehberger::StringKit.slug('Hello World!')                  # => "hello-world"
+Philiprehberger::StringKit.slug('Hello World!', separator: '_')  # => "hello_world"
+Philiprehberger::StringKit.transliterate('cr\u00E8me br\u00FBl\u00E9e')          # => "creme brulee"
+```
+
+### String Padding
+
+```ruby
+Philiprehberger::StringKit.pad('hi', 5)                   # => "hi   "
+Philiprehberger::StringKit.pad('hi', 5, side: :left)      # => "   hi"
+Philiprehberger::StringKit.pad('hi', 6, side: :both)      # => "  hi  "
+Philiprehberger::StringKit.pad('hi', 5, char: '*')        # => "hi***"
 ```
 
 ### Text Processing
@@ -65,6 +85,12 @@ Philiprehberger::StringKit.dedent("    hello\n    world")      # => "hello\nworl
 | `StringKit.pascal_case(str)` | Convert string to PascalCase |
 | `StringKit.snake_case(str)` | Convert string to snake_case |
 | `StringKit.constant_case(str)` | Convert string to CONSTANT_CASE |
+| `StringKit.dot_case(str)` | Convert string to dot.case |
+| `StringKit.path_case(str)` | Convert string to path/case |
+| `StringKit.reverse_case(str)` | Swap upper and lower case characters |
+| `StringKit.slug(str, separator:)` | Generate URL-safe slug |
+| `StringKit.pad(str, length, char:, side:)` | Pad string to target length |
+| `StringKit.transliterate(str)` | Replace accented characters with ASCII equivalents |
 | `StringKit.strip_html(str)` | Remove HTML tags from string |
 | `StringKit.normalize_whitespace(str)` | Collapse whitespace to single spaces |
 | `StringKit.word_count(str)` | Count words in string |

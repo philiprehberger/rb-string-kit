@@ -201,4 +201,132 @@ RSpec.describe Philiprehberger::StringKit do
       expect(described_class.dedent('')).to eq('')
     end
   end
+
+  describe '.slug' do
+    it 'converts a simple string' do
+      expect(described_class.slug('Hello World!')).to eq('hello-world')
+    end
+
+    it 'strips special characters' do
+      expect(described_class.slug('Hello @#$ World!!!')).to eq('hello-world')
+    end
+
+    it 'collapses multiple separators' do
+      expect(described_class.slug('hello---world')).to eq('hello-world')
+    end
+
+    it 'handles unicode via transliteration' do
+      expect(described_class.slug("Cr\u00E8me Br\u00FBl\u00E9e")).to eq('creme-brulee')
+    end
+
+    it 'accepts a custom separator' do
+      expect(described_class.slug('Hello World!', separator: '_')).to eq('hello_world')
+    end
+
+    it 'handles empty string' do
+      expect(described_class.slug('')).to eq('')
+    end
+  end
+
+  describe '.pad' do
+    it 'pads on the right by default' do
+      expect(described_class.pad('hi', 5)).to eq('hi   ')
+    end
+
+    it 'pads on the left' do
+      expect(described_class.pad('hi', 5, side: :left)).to eq('   hi')
+    end
+
+    it 'pads on both sides (center)' do
+      expect(described_class.pad('hi', 6, side: :both)).to eq('  hi  ')
+    end
+
+    it 'returns original string when already long enough' do
+      expect(described_class.pad('hello', 3)).to eq('hello')
+    end
+
+    it 'accepts a custom padding character' do
+      expect(described_class.pad('hi', 5, char: '*')).to eq('hi***')
+    end
+
+    it 'handles odd center padding' do
+      expect(described_class.pad('hi', 7, side: :both)).to eq('  hi   ')
+    end
+  end
+
+  describe '.transliterate' do
+    it 'replaces accented characters' do
+      expect(described_class.transliterate("caf\u00E9")).to eq('cafe')
+    end
+
+    it 'handles naive with diaeresis' do
+      expect(described_class.transliterate("na\u00EFve")).to eq('naive')
+    end
+
+    it 'handles uber with umlaut' do
+      expect(described_class.transliterate("\u00FCber")).to eq('uber')
+    end
+
+    it 'leaves plain ASCII unchanged' do
+      expect(described_class.transliterate('hello')).to eq('hello')
+    end
+
+    it 'handles empty string' do
+      expect(described_class.transliterate('')).to eq('')
+    end
+  end
+
+  describe '.dot_case' do
+    it 'converts PascalCase' do
+      expect(described_class.dot_case('SomeString')).to eq('some.string')
+    end
+
+    it 'converts snake_case' do
+      expect(described_class.dot_case('some_string')).to eq('some.string')
+    end
+
+    it 'converts spaces' do
+      expect(described_class.dot_case('some string')).to eq('some.string')
+    end
+
+    it 'handles empty string' do
+      expect(described_class.dot_case('')).to eq('')
+    end
+  end
+
+  describe '.path_case' do
+    it 'converts PascalCase' do
+      expect(described_class.path_case('SomeString')).to eq('some/string')
+    end
+
+    it 'converts snake_case' do
+      expect(described_class.path_case('some_string')).to eq('some/string')
+    end
+
+    it 'converts camelCase' do
+      expect(described_class.path_case('someString')).to eq('some/string')
+    end
+
+    it 'handles empty string' do
+      expect(described_class.path_case('')).to eq('')
+    end
+  end
+
+  describe '.reverse_case' do
+    it 'swaps upper and lower case' do
+      expect(described_class.reverse_case('Hello')).to eq('hELLO')
+    end
+
+    it 'handles all uppercase' do
+      expect(described_class.reverse_case('HELLO')).to eq('hello')
+    end
+
+    it 'handles all lowercase' do
+      expect(described_class.reverse_case('hello')).to eq('HELLO')
+    end
+
+    it 'handles empty string' do
+      expect(described_class.reverse_case('')).to eq('')
+    end
+  end
 end
