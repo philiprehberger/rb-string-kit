@@ -7,6 +7,12 @@ and this gem adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-04-15
+
+### Fixed
+- Align issue templates with guide: add required `gem-version` input to bug report and `alternatives` textarea plus code placeholder to feature request
+- Pin `actions/checkout` to `v5` in CI workflow to match guide
+
 ## [0.2.0] - 2026-04-03
 
 ### Added
