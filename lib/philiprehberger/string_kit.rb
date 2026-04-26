@@ -278,6 +278,53 @@ module Philiprehberger
       str.swapcase
     end
 
+    # Removes zero-width and invisible Unicode characters from `str`.
+    # Useful when ingesting content copied from web pages.
+    #
+    # @param str [String]
+    # @return [String]
+    def self.strip_zero_width(str)
+      str.gsub(/[​‌‍⁠؜﻿]/, '')
+    end
+
+    # Levenshtein edit distance between `a` and `b`.
+    #
+    # @param a [String]
+    # @param b [String]
+    # @return [Integer]
+    def self.levenshtein(a, b)
+      return b.length if a.empty?
+      return a.length if b.empty?
+
+      prev = (0..b.length).to_a
+      curr = Array.new(b.length + 1)
+
+      a.each_char.with_index do |ac, i|
+        curr[0] = i + 1
+        b.each_char.with_index do |bc, j|
+          cost = ac == bc ? 0 : 1
+          curr[j + 1] = [curr[j] + 1, prev[j + 1] + 1, prev[j] + cost].min
+        end
+        prev = curr.dup
+      end
+
+      prev[b.length]
+    end
+
+    # Similarity score between 0.0 and 1.0 derived from Levenshtein distance.
+    # Returns 1.0 for identical strings, 1.0 for two empty strings, and
+    # `1 - distance / max_length` otherwise.
+    #
+    # @param a [String]
+    # @param b [String]
+    # @return [Float]
+    def self.similarity(a, b)
+      max = [a.length, b.length].max
+      return 1.0 if max.zero?
+
+      1.0 - (levenshtein(a, b).to_f / max)
+    end
+
     class << self
       private
 

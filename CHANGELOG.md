@@ -7,6 +7,13 @@ and this gem adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-04-25
+
+### Added
+- `StringKit.strip_zero_width` removes zero-width and invisible Unicode characters
+- `StringKit.levenshtein` returns Levenshtein edit distance between two strings
+- `StringKit.similarity` returns a 0.0–1.0 similarity score derived from Levenshtein distance
+
 ## [0.2.1] - 2026-04-15
 
 ### Fixed

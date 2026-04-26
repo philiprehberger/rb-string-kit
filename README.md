@@ -75,6 +75,22 @@ Philiprehberger::StringKit.indent("hello\nworld", 2)           # => "  hello\n  
 Philiprehberger::StringKit.dedent("    hello\n    world")      # => "hello\nworld"
 ```
 
+### Zero-Width Characters
+
+```ruby
+require "philiprehberger/string_kit"
+
+raw = "hello​world"
+Philiprehberger::StringKit.strip_zero_width(raw)  # => "helloworld"
+```
+
+### String Similarity
+
+```ruby
+Philiprehberger::StringKit.levenshtein('kitten', 'sitting')  # => 3
+Philiprehberger::StringKit.similarity('kitten', 'sitting')   # => ~0.571
+```
+
 ## API
 
 | Method | Description |
@@ -99,6 +115,9 @@ Philiprehberger::StringKit.dedent("    hello\n    world")      # => "hello\nworl
 | `StringKit.squeeze(str)` | Remove consecutive duplicate characters |
 | `StringKit.indent(str, n)` | Indent each line by n spaces |
 | `StringKit.dedent(str)` | Remove common leading whitespace |
+| `.strip_zero_width(str)` | Remove zero-width and invisible Unicode characters |
+| `.levenshtein(a, b)` | Edit distance between two strings |
+| `.similarity(a, b)` | 0.0–1.0 similarity derived from Levenshtein distance |
 
 ## Development
 

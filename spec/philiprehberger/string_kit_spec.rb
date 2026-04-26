@@ -329,4 +329,79 @@ RSpec.describe Philiprehberger::StringKit do
       expect(described_class.reverse_case('')).to eq('')
     end
   end
+
+  describe '.strip_zero_width' do
+    it 'removes zero-width space (U+200B)' do
+      expect(described_class.strip_zero_width('hello​world')).to eq('helloworld')
+    end
+
+    it 'removes zero-width non-joiner (U+200C)' do
+      expect(described_class.strip_zero_width('hello‌world')).to eq('helloworld')
+    end
+
+    it 'removes zero-width joiner (U+200D)' do
+      expect(described_class.strip_zero_width('hello‍world')).to eq('helloworld')
+    end
+
+    it 'removes byte order mark (U+FEFF)' do
+      expect(described_class.strip_zero_width('﻿hello')).to eq('hello')
+    end
+
+    it 'removes Arabic letter mark (U+061C)' do
+      expect(described_class.strip_zero_width('hello؜world')).to eq('helloworld')
+    end
+
+    it 'removes word joiner (U+2060)' do
+      expect(described_class.strip_zero_width('hello⁠world')).to eq('helloworld')
+    end
+
+    it 'leaves visible characters intact' do
+      expect(described_class.strip_zero_width('hello world')).to eq('hello world')
+    end
+
+    it 'returns empty string for empty input' do
+      expect(described_class.strip_zero_width('')).to eq('')
+    end
+  end
+
+  describe '.levenshtein' do
+    it 'returns 0 for identical strings' do
+      expect(described_class.levenshtein('hello', 'hello')).to eq(0)
+    end
+
+    it 'returns length when one string is empty' do
+      expect(described_class.levenshtein('', 'hello')).to eq(5)
+      expect(described_class.levenshtein('hello', '')).to eq(5)
+    end
+
+    it 'returns length for fully different strings' do
+      expect(described_class.levenshtein('abc', 'xyz')).to eq(3)
+    end
+
+    it 'returns 3 for kitten/sitting' do
+      expect(described_class.levenshtein('kitten', 'sitting')).to eq(3)
+    end
+
+    it 'handles two empty strings' do
+      expect(described_class.levenshtein('', '')).to eq(0)
+    end
+  end
+
+  describe '.similarity' do
+    it 'returns 1.0 for identical strings' do
+      expect(described_class.similarity('hello', 'hello')).to eq(1.0)
+    end
+
+    it 'returns 0.0 for fully different strings' do
+      expect(described_class.similarity('abc', 'xyz')).to eq(0.0)
+    end
+
+    it 'returns a partial score for similar strings' do
+      expect(described_class.similarity('kitten', 'sitting')).to be_within(0.01).of(0.571)
+    end
+
+    it 'returns 1.0 for two empty strings' do
+      expect(described_class.similarity('', '')).to eq(1.0)
+    end
+  end
 end
