@@ -404,4 +404,106 @@ RSpec.describe Philiprehberger::StringKit do
       expect(described_class.similarity('', '')).to eq(1.0)
     end
   end
+
+  describe '.mask' do
+    it 'masks all but the last n characters' do
+      expect(described_class.mask('4242424242424242', show_last: 4)).to eq('************4242')
+    end
+
+    it 'masks the middle portion preserving first and last characters' do
+      expect(described_class.mask('alice@example.com', show_first: 2, show_last: 4)).to eq('al***********.com')
+    end
+
+    it 'returns the string unchanged when too short to mask' do
+      expect(described_class.mask('abc', show_first: 1, show_last: 1)).to eq('abc')
+    end
+
+    it 'returns the string unchanged when show_first + show_last exceeds length' do
+      expect(described_class.mask('hi', show_first: 5)).to eq('hi')
+    end
+
+    it 'returns the string unchanged for an empty string' do
+      expect(described_class.mask('')).to eq('')
+    end
+
+    it 'accepts a custom mask character' do
+      expect(described_class.mask('password123', show_last: 3, mask_char: '#')).to eq('########123')
+    end
+
+    it 'raises Error for non-string input' do
+      expect { described_class.mask(12_345, show_last: 2) }.to raise_error(described_class::Error)
+    end
+  end
+
+  describe '.between' do
+    it 'extracts text between two delimiters' do
+      expect(described_class.between('hello [world] there', '[', ']')).to eq('world')
+    end
+
+    it 'returns nil when the left delimiter is missing' do
+      expect(described_class.between('no brackets here', '[', ']')).to be_nil
+    end
+
+    it 'returns nil when the right delimiter is missing' do
+      expect(described_class.between('only [left here', '[', ']')).to be_nil
+    end
+
+    it 'returns the first occurrence when delimiters repeat' do
+      expect(described_class.between('a(b)c(d)', '(', ')')).to eq('b')
+    end
+
+    it 'returns an empty string for adjacent delimiters' do
+      expect(described_class.between('foo[]bar', '[', ']')).to eq('')
+    end
+
+    it 'supports multi-character delimiters' do
+      expect(described_class.between('start<<inner>>end', '<<', '>>')).to eq('inner')
+    end
+
+    it 'raises Error for non-string input' do
+      expect { described_class.between(nil, '[', ']') }.to raise_error(described_class::Error)
+    end
+  end
+
+  describe '.truncate_words' do
+    it 'truncates to max_words and appends the default omission' do
+      expect(described_class.truncate_words('The quick brown fox jumps', 3)).to eq('The quick brown…')
+    end
+
+    it 'returns the original string when word count is below max_words' do
+      expect(described_class.truncate_words('Two words', 5)).to eq('Two words')
+    end
+
+    it 'returns the original string when word count equals max_words' do
+      expect(described_class.truncate_words('one two three', 3)).to eq('one two three')
+    end
+
+    it 'accepts a custom omission' do
+      expect(described_class.truncate_words('a b c d e', 2, omission: '...')).to eq('a b...')
+    end
+
+    it 'collapses whitespace between kept words' do
+      expect(described_class.truncate_words("foo   bar\tbaz\nqux", 2)).to eq('foo bar…')
+    end
+
+    it 'returns empty string unchanged' do
+      expect(described_class.truncate_words('', 3)).to eq('')
+    end
+
+    it 'raises Error for non-string input' do
+      expect { described_class.truncate_words(nil, 3) }.to raise_error(described_class::Error)
+    end
+
+    it 'raises Error when max_words is zero' do
+      expect { described_class.truncate_words('hello world', 0) }.to raise_error(described_class::Error)
+    end
+
+    it 'raises Error when max_words is negative' do
+      expect { described_class.truncate_words('hello world', -1) }.to raise_error(described_class::Error)
+    end
+
+    it 'raises Error when max_words is not an Integer' do
+      expect { described_class.truncate_words('hello world', 2.5) }.to raise_error(described_class::Error)
+    end
+  end
 end

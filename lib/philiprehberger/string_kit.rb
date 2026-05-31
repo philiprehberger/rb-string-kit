@@ -325,6 +325,62 @@ module Philiprehberger
       1.0 - (levenshtein(a, b).to_f / max)
     end
 
+    # Mask a string by replacing its middle portion with `mask_char`,
+    # leaving `show_first` characters at the start and `show_last` at the end.
+    # Returns `str` unchanged when there is not enough room to mask at least
+    # two characters in the middle.
+    #
+    # @param str [String]
+    # @param show_first [Integer] number of characters to leave visible at the start
+    # @param show_last [Integer] number of characters to leave visible at the end
+    # @param mask_char [String] character used to mask the hidden portion (default: '*')
+    # @return [String]
+    def self.mask(str, show_first: 0, show_last: 0, mask_char: '*')
+      validate!(str)
+      return str if show_first + show_last >= str.length - 1
+
+      masked_length = str.length - show_first - show_last
+      str[0, show_first] + (mask_char * masked_length) + str[str.length - show_last, show_last].to_s
+    end
+
+    # Returns the substring strictly between the first occurrence of `left`
+    # and the first occurrence of `right` after `left`. Returns `nil` when
+    # either delimiter is missing.
+    #
+    # @param str [String]
+    # @param left [String]
+    # @param right [String]
+    # @return [String, nil]
+    def self.between(str, left, right)
+      validate!(str)
+      left_index = str.index(left)
+      return nil if left_index.nil?
+
+      start_pos = left_index + left.length
+      right_index = str.index(right, start_pos)
+      return nil if right_index.nil?
+
+      str[start_pos...right_index]
+    end
+
+    # Truncate a string to the first `max_words` words. When truncation
+    # happens, append `omission` to the result. The string is unchanged
+    # when the word count is less than or equal to `max_words`.
+    #
+    # @param str [String]
+    # @param max_words [Integer] maximum number of words to keep (must be positive)
+    # @param omission [String] string appended when truncation occurs (default: '…')
+    # @return [String]
+    def self.truncate_words(str, max_words, omission: '…')
+      validate!(str)
+      raise Error, 'max_words must be a positive Integer' unless max_words.is_a?(Integer) && max_words.positive?
+
+      words = str.split(/\s+/).reject(&:empty?)
+      return str if words.length <= max_words
+
+      "#{words.first(max_words).join(' ')}#{omission}"
+    end
+
     class << self
       private
 

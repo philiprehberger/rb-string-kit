@@ -7,6 +7,16 @@ and this gem adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-05-30
+
+### Added
+- `StringKit.mask(str, show_first:, show_last:, mask_char:)` for partial string obfuscation
+- `StringKit.between(str, left, right)` to extract text between delimiters
+- `StringKit.truncate_words(str, max_words, omission:)` for word-aware truncation
+
+### Fixed
+- README now includes the standard package card image after the badges
+
 ## [0.3.0] - 2026-04-25
 
 ### Added

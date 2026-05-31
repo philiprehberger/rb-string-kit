@@ -4,6 +4,8 @@
 [![Gem Version](https://badge.fury.io/rb/philiprehberger-string_kit.svg)](https://rubygems.org/gems/philiprehberger-string_kit)
 [![Last updated](https://img.shields.io/github/last-commit/philiprehberger/rb-string-kit)](https://github.com/philiprehberger/rb-string-kit/commits/main)
 
+![philiprehberger-string_kit](https://raw.githubusercontent.com/philiprehberger/rb-string-kit/main/package-card.webp)
+
 Comprehensive string utilities without ActiveSupport dependency
 
 ## Requirements
@@ -91,6 +93,30 @@ Philiprehberger::StringKit.levenshtein('kitten', 'sitting')  # => 3
 Philiprehberger::StringKit.similarity('kitten', 'sitting')   # => ~0.571
 ```
 
+### Masking
+
+```ruby
+Philiprehberger::StringKit.mask('4242424242424242', show_last: 4)                  # => "************4242"
+Philiprehberger::StringKit.mask('alice@example.com', show_first: 2, show_last: 4)  # => "al***********.com"
+Philiprehberger::StringKit.mask('password123', show_last: 3, mask_char: '#')       # => "########123"
+```
+
+### Between Delimiters
+
+```ruby
+Philiprehberger::StringKit.between('hello [world] there', '[', ']')  # => "world"
+Philiprehberger::StringKit.between('a(b)c(d)', '(', ')')             # => "b"
+Philiprehberger::StringKit.between('no brackets here', '[', ']')     # => nil
+```
+
+### Word-Aware Truncation
+
+```ruby
+Philiprehberger::StringKit.truncate_words('The quick brown fox jumps', 3)                  # => "The quick brown…"
+Philiprehberger::StringKit.truncate_words('Two words', 5)                                  # => "Two words"
+Philiprehberger::StringKit.truncate_words('a b c d e', 2, omission: '...')                 # => "a b..."
+```
+
 ## API
 
 | Method | Description |
@@ -118,6 +144,9 @@ Philiprehberger::StringKit.similarity('kitten', 'sitting')   # => ~0.571
 | `.strip_zero_width(str)` | Remove zero-width and invisible Unicode characters |
 | `.levenshtein(a, b)` | Edit distance between two strings |
 | `.similarity(a, b)` | 0.0–1.0 similarity derived from Levenshtein distance |
+| `StringKit.mask(str, show_first:, show_last:, mask_char:)` | Mask the middle of a string for partial obfuscation |
+| `StringKit.between(str, left, right)` | Extract text between the first occurrence of two delimiters |
+| `StringKit.truncate_words(str, max_words, omission:)` | Truncate to the first `max_words` words with an omission marker |
 
 ## Development
 
