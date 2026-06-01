@@ -117,6 +117,21 @@ Philiprehberger::StringKit.truncate_words('Two words', 5)                       
 Philiprehberger::StringKit.truncate_words('a b c d e', 2, omission: '...')                 # => "a b..."
 ```
 
+### Word Wrap
+
+```ruby
+Philiprehberger::StringKit.word_wrap('The quick brown fox jumps over the lazy dog', 15)
+# => "The quick brown\nfox jumps over\nthe lazy dog"
+
+# Words longer than `width` are kept intact on their own line
+Philiprehberger::StringKit.word_wrap('Supercalifragilistic words', 10)
+# => "Supercalifragilistic\nwords"
+
+# Existing newlines are honored as forced breaks
+Philiprehberger::StringKit.word_wrap("one two\nthree four", 7)
+# => "one two\nthree\nfour"
+```
+
 ## API
 
 | Method | Description |
@@ -147,6 +162,7 @@ Philiprehberger::StringKit.truncate_words('a b c d e', 2, omission: '...')      
 | `StringKit.mask(str, show_first:, show_last:, mask_char:)` | Mask the middle of a string for partial obfuscation |
 | `StringKit.between(str, left, right)` | Extract text between the first occurrence of two delimiters |
 | `StringKit.truncate_words(str, max_words, omission:)` | Truncate to the first `max_words` words with an omission marker |
+| `StringKit.word_wrap(str, width)` | Wrap to lines of at most `width` characters on word boundaries |
 
 ## Development
 

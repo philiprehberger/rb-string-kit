@@ -506,4 +506,46 @@ RSpec.describe Philiprehberger::StringKit do
       expect { described_class.truncate_words('hello world', 2.5) }.to raise_error(described_class::Error)
     end
   end
+
+  describe '.word_wrap' do
+    it 'wraps on word boundaries within the width' do
+      result = described_class.word_wrap('The quick brown fox jumps over the lazy dog', 15)
+      expect(result).to eq("The quick brown\nfox jumps over\nthe lazy dog")
+    end
+
+    it 'leaves a string shorter than width unchanged' do
+      expect(described_class.word_wrap('short', 20)).to eq('short')
+    end
+
+    it 'keeps words longer than width intact on their own line' do
+      result = described_class.word_wrap('Supercalifragilistic words', 10)
+      expect(result).to eq("Supercalifragilistic\nwords")
+    end
+
+    it 'honors existing newlines as forced breaks' do
+      result = described_class.word_wrap("one two\nthree four", 7)
+      expect(result).to eq("one two\nthree\nfour")
+    end
+
+    it 'returns an empty string for empty input' do
+      expect(described_class.word_wrap('', 10)).to eq('')
+    end
+
+    it 'collapses runs of whitespace within a logical line' do
+      expect(described_class.word_wrap('a   b  c', 10)).to eq('a b c')
+    end
+
+    it 'raises Error on non-positive width' do
+      expect { described_class.word_wrap('hello', 0) }.to raise_error(described_class::Error)
+      expect { described_class.word_wrap('hello', -1) }.to raise_error(described_class::Error)
+    end
+
+    it 'raises Error on non-Integer width' do
+      expect { described_class.word_wrap('hello', 5.5) }.to raise_error(described_class::Error)
+    end
+
+    it 'raises Error on non-String input' do
+      expect { described_class.word_wrap(nil, 5) }.to raise_error(described_class::Error)
+    end
+  end
 end

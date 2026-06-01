@@ -381,6 +381,21 @@ module Philiprehberger
       "#{words.first(max_words).join(' ')}#{omission}"
     end
 
+    # Wrap the string to lines of at most `width` characters, breaking on
+    # word boundaries. Words longer than `width` are kept intact on their own
+    # line rather than split mid-word. Existing newlines are honored as
+    # forced breaks — each input line is wrapped independently.
+    #
+    # @param str [String]
+    # @param width [Integer] maximum line width (must be positive)
+    # @return [String] newline-joined wrapped lines
+    def self.word_wrap(str, width)
+      validate!(str)
+      raise Error, 'width must be a positive Integer' unless width.is_a?(Integer) && width.positive?
+
+      str.each_line.map { |line| wrap_line(line.chomp, width) }.join("\n")
+    end
+
     class << self
       private
 
@@ -395,6 +410,28 @@ module Philiprehberger
           .strip
           .downcase
           .split
+      end
+
+      def wrap_line(line, width)
+        return '' if line.empty?
+
+        words = line.split(/\s+/).reject(&:empty?)
+        return '' if words.empty?
+
+        lines = []
+        current = +''
+        words.each do |word|
+          if current.empty?
+            current = word.dup
+          elsif current.length + 1 + word.length <= width
+            current << ' ' << word
+          else
+            lines << current
+            current = word.dup
+          end
+        end
+        lines << current unless current.empty?
+        lines.join("\n")
       end
     end
   end

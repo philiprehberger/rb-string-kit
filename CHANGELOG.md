@@ -7,6 +7,11 @@ and this gem adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-05-31
+
+### Added
+- `StringKit.word_wrap(str, width)` wraps a string to lines of at most `width` characters on word boundaries. Words longer than `width` are kept intact on their own line; existing newlines are honored as forced breaks. Raises `Error` for non-positive widths.
+
 ## [0.4.0] - 2026-05-30
 
 ### Added
